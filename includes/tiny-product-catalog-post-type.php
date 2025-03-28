@@ -53,51 +53,44 @@ function tpcatalog_price_box_html($post) {
 
 /* save post meta */
 function tpcatalog_save_postdata($post_id) {
-    if (array_key_exists('tpcatalog_price', $_POST)) {
+    if (array_key_exists('tpcatalog_price', $_POST)) :
         update_post_meta(
             $post_id,
             '_tpcatalog_meta_price',
             sanitize_text_field($_POST['tpcatalog_price'])
         );
+    endif;
     }
-}
 
 add_action('save_post', 'tpcatalog_save_postdata');
 
-/* register new taxonomy: product category */
-// register custom post type to work with
-function lc_create_post_type() {
-    // set up labels
-    $labels = array (
-    'name' => 'Events',
-    'singular_name' => 'Event',
-    'add_new' => 'Add New Event',
-    'add_new_item' => 'Add New Event',
-    'edit_item' => 'Edit Event',
-    'new_item' => 'New Event',
-    'all_items' => 'All Events',
-    'view_item' => 'View Event',
-    'search_items' => 'Search Events',
-    'not_found' => 'No Events Found',
-    'not_found_in_trash' => 'No Events found in Trash',
-    'parent_item_colon' => '',
-    'menu_name' => 'Events',
+/* register new taxonomy; product category */
+function tpcatalog_register_taxonomy() {
+    $labels = array(
+        'name' => 'Tuotekategoriat',
+        'singular_name' => 'Tuotekategoria',
+        'search_items' => 'Etsi tuotekategorioita',
+        'all_items' => 'Kaikki tuotekategoriat',
+        'edit_item' => 'Muokkaa tuotekategoriaa',
+        'update_item' => 'Päivitä tuotekategoria',
+        'add_new_item' => 'Lisää tuotekategoria',
+        'new_item_name' => 'Uuden tuotekategorian nimi',
+        'menu_name' => 'Tuotekategoriat'
     );
-    //register post type
-    register_post_type ( 'event', array(
-    'labels' => $labels,
-    'has_archive' => true,
-    'public' => true,
-    'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail','page-attributes' ),
-    'taxonomies' => array( 'post_tag', 'category' ),
-    'exclude_from_search' => false,
-    'capability_type' => 'post',
-    'rewrite' => array( 'slug' => 'events' ),
-    )
+
+    $args = array(
+        'labels' => $labels,
+        'hierachical' => true,
+        'sort' => true,
+        'args' => array('orderby' => 'term_order'),
+        'rewrite' => array('slug' => 'tuotteet'),
+        'show_admin_column' => true,
+        'show_in_rest' => true,
     );
-    }
-    add_action( 'init', 'lc_create_post_type' );
 
+    register_taxonomy('tpcatalog_category', array('tpcatalog_product'), $args);
+}
 
+add_action('init', 'tpcatalog_register_taxonomy');
 
 ?>

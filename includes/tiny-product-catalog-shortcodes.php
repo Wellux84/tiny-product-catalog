@@ -5,26 +5,28 @@ function tpcatalog_shortcode($tpc_attr) {
     );
     $cat = shortcode_atts($default, $tpc_attr);
 
-    if ($cat['category'] == 'all') {
+    if($cat['category'] == 'all'):
         $args = array(
             'post_type' => 'tpcatalog_product',
-            'post_status' => 'publish', // 'publish' or 'draft' or 'pending' or 'private' or 'trash' or 'any'
+            'post_status' => 'publish',
             'orderby' => 'title',
-            'order' => 'ASC', // 'ASC' or 'DESC
+            'order' => 'ASC'
         );
-    } else {
+    else :
         $args = array(
             'post_type' => 'tpcatalog_product',
-            'posts_per_page' => -1,
             'tax_query' => array(
                 array(
                     'taxonomy' => 'tpcatalog_category',
                     'field' => 'slug',
                     'terms' => $cat['category']
                 )
-            )
+            ),
+            'post_status' => 'publish',
+            'orderby' => 'title',
+            'order' => 'ASC'
         );
-    }
+    endif;
     $text = '<div class="tiny-product-catalog">';
     $loop = new WP_Query($args);
     if ($loop->have_posts()) {

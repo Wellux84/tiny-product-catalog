@@ -15,9 +15,9 @@ function tpcatalog_setup_menu() {
 
 function tpcatalog_display_admin_page() {
     echo '<h1>Pieni tuotekatalogi</h1>';
-    echo '<p>Lisää artikkeliin tai sivulle lyhytkoodi [tiny-product-catalog] näyttääksesi kaikki tuotteet tai [tiny-product-catalog category="sinun kategoriasi"] näyttää
+    echo '<p>Lisää artikkeliin tai sivulle lyhytkoodi [tiny-product-catalog] näyttääksesi
+    kaikki tuotteet tai [tiny-product-catalog category="sinun kategoriasi"] näyttää
     tietyn tuotekategorian tuotteet. </p>';
-    echo '<p>Meillä on vimpain!</p>';
 }
 add_action('admin_menu', 'tpcatalog_setup_menu');
 
